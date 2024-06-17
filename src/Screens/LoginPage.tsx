@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { signInWithGoogle, getCurrentUser as fetchCurrentUser } from './src/services/authService';
+import { signInWithGoogle, getCurrentUser as fetchCurrentUser } from '../services/authService';
 
+
+// interface User {
+//   uid: string;
+//   email: string | null;
+//   displayName: string | null;
+//   photoURL: string | null;
+// }
 interface Props {
   navigation: any;
 }
-function App({navigation}: Props) {
+
+function App({ navigation }: Props) {
+
   const [user, setUser] = useState('');
 
   useEffect(() => {
     const loadUser = async () => {
-
         const currentUser = await fetchCurrentUser();
-        console.log('User data:', currentUser);
         if (currentUser) {
-         setUser(currentUser);
-          navigation.navigate('HomePage', user);
+         await setUser(currentUser);
+          navigation.navigate('HomePage', {
+              uid: currentUser.uid,
+              email: currentUser.email,
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL,
+          });
         } else {
           console.log('No user found!');
         }
     };
-
     loadUser();
-  }, []);
+  }, [user]);
 
   return (
     <View style={styles.container}>

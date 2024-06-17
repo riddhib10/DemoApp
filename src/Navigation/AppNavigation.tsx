@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginPageScreen from './LoginPage';
-import HomePageScreen from './HomePage';
+import LoginPageScreen from '../Screens/LoginPage';
+import HomePageScreen from '../Screens/HomePage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
