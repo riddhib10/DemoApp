@@ -1,42 +1,145 @@
+// import React, { useEffect, useState } from 'react';
+// import { View, Text, Button, StyleSheet, Alert ,Image, TouchableOpacity} from 'react-native';
+// import { GoogleSignin } from '@react-native-google-signin/google-signin';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { signOut } from '../services/authService';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+// import TabNavigation from '../Navigation/TabNavigation';
+//
+//
+// interface Props {
+//   navigation: any;
+// }
+//
+// const HomePage: React.FC<Props> = ({ navigation, route }) => {
+//   const { uid, email, displayName, photoURL } = route.params;
+//
+// useEffect(() => {
+// console.log("Home Page : ",displayName);
+// },[]);
+//
+//
+//   const handleLogout = async () => {
+//     Alert.alert('Log Out','Are you sure you want to log out?',
+//       [ { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+//         { text: 'OK', onPress: async () => {
+//             try {
+//               await signOut();
+//               navigation.goBack();
+//               Alert.alert('Logged Out', 'You have been logged out successfully.');
+//             } catch (error) {
+//               Alert.alert('Error', 'An error occurred while logging out.');
+//             }
+//           }
+//         }
+//       ],
+//       { cancelable: false }
+//     );
+// };
+//
+//  return (
+//      <View style={styles.container}>
+//        <Text style={styles.userInfoText}>Welcome to Home Page!</Text>
+//        <View style={[styles.imageContainer, { alignItems: 'center' }]}>
+//          <Image source={{ uri: photoURL }} style={styles.image} />
+//        </View>
+//        <Text style={[styles.userInfoText, { textAlign: 'center' }]}>Hello {displayName}!</Text>
+//
+//        <View style={styles.infoContainer}>
+//          <Text style={styles.text}>Email Id :</Text>
+//          <Text style={styles.text}>{email}</Text>
+//        </View>
+//
+//        <View style={styles.infoContainer}>
+//          <Text style={styles.text}>User UID :</Text>
+//          <Text style={styles.text}>{uid}</Text>
+//        </View>
+//         <TouchableOpacity  onPress={handleLogout}>
+//             <Text >Log Out</Text>
+//         </TouchableOpacity>
+//
+//
+//         <View style={styles.infoContainer}>
+// < TabNavigation />
+//         </View>
+//      </View>
+//
+//    );
+//  };
+//
+//  const styles = StyleSheet.create({
+//    container: {
+//      backgroundColor: '#ffffff',
+//      padding: 16,
+//      borderRadius: 8,
+//      shadowColor: '#000000',
+//      shadowOffset: { width: 0, height: 2 },
+//      shadowOpacity: 0.3,
+//      shadowRadius: 4,
+//      elevation: 5,
+//      margin: 16,
+//    },
+//    infoContainer: {
+//      marginVertical: 8,
+//    },
+//    text: {
+//      fontSize: 16,
+//      color: '#000000',
+//      textAlign: 'left',
+//    },
+//    image: {
+//      width: 100,
+//      height: 100,
+//      borderRadius: 30,
+//    },
+//    imageContainer: {
+//      marginVertical: 20,
+//    },
+//    userInfoText: {
+//      fontSize: 18,
+//      fontWeight: 'bold',
+//      textAlign: 'center',
+//      marginBottom: 10,
+//    },
+//  });
+//
+// export default HomePage;
+
+
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, Alert ,Image} from 'react-native';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { signOut } from '../services/authService';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {getCurrentUser as fetchCurrentUser } from '../services/authService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SearchBar } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-interface User {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-}
 
-interface Props {
-  navigation: any;
-  route: RouteProp<{ params: { user: User } }, 'params'>;
+const HomePage = ({ navigation, route }) => {
+//   const { uid, email, displayName, photoURL } = route.params;
+const [userData, setUserData] = useState('');
+    const [search, setSearch] = useState('');
 
-}
 
-const HomePage: React.FC<Props> = ({ navigation, route }) => {
-  const { uid, email, displayName, photoURL } = route.params;
 
-useEffect(() => {
-console.log("Home Page : ",displayName);
-},[]);
+
+ useEffect(() => {
+     const checkLoginStatus = async () => {
+       const storedUserData = await AsyncStorage.getItem('user');
+       setUserData(JSON.parse(storedUserData));
+     };
+     checkLoginStatus();
+   }, []);
 
 
   const handleLogout = async () => {
-    Alert.alert('Log Out','Are you sure you want to log out?',
-      [ { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+    Alert.alert('Log Out', 'Are you sure you want to log out?',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
         { text: 'OK', onPress: async () => {
             try {
-//               await GoogleSignin.signOut();
-//               await AsyncStorage.removeItem('user');
-//               await logout();
               await signOut();
-//               navigation.navigate('LoginPage');
-                navigation.goBack();
+              navigation.replace('LoginPage');
               Alert.alert('Logged Out', 'You have been logged out successfully.');
             } catch (error) {
               Alert.alert('Error', 'An error occurred while logging out.');
@@ -46,64 +149,83 @@ console.log("Home Page : ",displayName);
       ],
       { cancelable: false }
     );
-};
+  };
 
- return (
-     <View style={styles.container}>
-       <Text style={styles.userInfoText}>Welcome to Home Page!</Text>
+  return (
+  <View>
+    <View style={styles.container}>
+    <Text style={styles.userInfoText}>Welcome to Home Page!</Text>
        <View style={[styles.imageContainer, { alignItems: 'center' }]}>
-         <Image source={{ uri: photoURL }} style={styles.image} />
+         <Image source={{ uri: userData.photoURL }} style={styles.image} />
        </View>
-       <Text style={[styles.userInfoText, { textAlign: 'center' }]}>Hello {displayName}!</Text>
+       <Text style={[styles.userInfoText, { textAlign: 'center' }]}>Hello {userData.displayName}!</Text>
 
        <View style={styles.infoContainer}>
          <Text style={styles.text}>Email Id :</Text>
-         <Text style={styles.text}>{email}</Text>
+         <Text style={styles.text}>{userData.email}</Text>
        </View>
 
        <View style={styles.infoContainer}>
          <Text style={styles.text}>User UID :</Text>
-         <Text style={styles.text}>{uid}</Text>
+         <Text style={styles.text}>{userData.uid}</Text>
        </View>
-     </View>
+       <TouchableOpacity onPress={handleLogout}>
+          <Text style={styles.text}>Click Here To SingOut</Text>
+       </TouchableOpacity>
 
-   );
- };
+    </View>
+     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <SearchBar
+                    placeholder="Type Here..."
+                    onChangeText={setSearch}
+                    value={search}
+                    containerStyle={{ backgroundColor: 'transparent', borderWidth: 0, width: '100%' }}
+                    inputContainerStyle={{ backgroundColor: '#e1e1e1', borderRadius: 25 }}
+                    inputStyle={{ color: '#000' }}
+                    placeholderTextColor="#888"
+                    searchIcon={{ size: 24 }}
+                    clearIcon={<Icon name="close" size={24} onPress={() => setSearch('')} />}
+                  />
+                  <Text style={{ marginTop: 20 }}>Search Query: {search}</Text>
+       </View>
+   </View>
+  );
+};
 
- const styles = StyleSheet.create({
-   container: {
-     backgroundColor: '#ffffff',
-     padding: 16,
-     borderRadius: 8,
-     shadowColor: '#000000',
-     shadowOffset: { width: 0, height: 2 },
-     shadowOpacity: 0.3,
-     shadowRadius: 4,
-     elevation: 5,
-     margin: 16,
-   },
-   infoContainer: {
-     marginVertical: 8,
-   },
-   text: {
-     fontSize: 16,
-     color: '#000000',
-     textAlign: 'left',
-   },
-   image: {
-     width: 100,
-     height: 100,
-     borderRadius: 30,
-   },
-   imageContainer: {
-     marginVertical: 20,
-   },
-   userInfoText: {
-     fontSize: 18,
-     fontWeight: 'bold',
-     textAlign: 'center',
-     marginBottom: 10,
-   },
- });
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    margin: 16,
+  },
+  infoContainer: {
+    marginVertical: 8,
+  },
+  text: {
+    fontSize: 16,
+    color: '#000000',
+    textAlign: 'left',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 30,
+  },
+  imageContainer: {
+    marginVertical: 20,
+  },
+  userInfoText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+});
 
 export default HomePage;

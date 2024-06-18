@@ -14,7 +14,7 @@ interface Props {
   navigation: any;
 }
 
-function App({ navigation }: Props) {
+function LoginPage({ navigation }: Props) {
 
   const [user, setUser] = useState('');
 
@@ -23,12 +23,7 @@ function App({ navigation }: Props) {
         const currentUser = await fetchCurrentUser();
         if (currentUser) {
          await setUser(currentUser);
-          navigation.navigate('HomePage', {
-              uid: currentUser.uid,
-              email: currentUser.email,
-              displayName: currentUser.displayName,
-              photoURL: currentUser.photoURL,
-          });
+          navigation.navigate('HomePage');
         } else {
           console.log('No user found!');
         }
@@ -49,8 +44,7 @@ function App({ navigation }: Props) {
           } catch (error) {
             console.error('Error signing in:', error);
           }
-        }}
-      />
+        }}/>
     </View>
   );
 }
@@ -67,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default LoginPage;
