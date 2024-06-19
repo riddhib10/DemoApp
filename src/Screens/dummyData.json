@@ -1,0 +1,17 @@
+[
+  { "hospitalName": "Hospital A", "requestType": "Type 1", "dateOfRequest": "2023-01-01", "status": "Granted" },
+  { "hospitalName": "Hospital B", "requestType": "Type 2", "dateOfRequest": "2023-01-02", "status": "Pending" },
+  { "hospitalName": "Hospital C", "requestType": "Type 3", "dateOfRequest": "2023-01-03", "status": "Denied" },
+  { "hospitalName": "Hospital D", "requestType": "Type 4", "dateOfRequest": "2023-01-04", "status": "Expired" },
+  { "hospitalName": "Hospital E", "requestType": "Type 5", "dateOfRequest": "2023-01-05", "status": "Revoked" },
+  { "hospitalName": "Hospital F", "requestType": "Type 1", "dateOfRequest": "2023-01-06", "status": "Granted" },
+  { "hospitalName": "Hospital G", "requestType": "Type 2", "dateOfRequest": "2023-01-07", "status": "Pending" },
+  { "hospitalName": "Hospital H", "requestType": "Type 3", "dateOfRequest": "2023-01-08", "status": "Denied" },
+  { "hospitalName": "Hospital I", "requestType": "Type 4", "dateOfRequest": "2023-01-09", "status": "Expired" },
+  { "hospitalName": "Hospital J", "requestType": "Type 5", "dateOfRequest": "2023-01-10", "status": "Revoked" },
+  { "hospitalName": "Hospital K", "requestType": "Type 1", "dateOfRequest": "2023-01-11", "status": "Granted" },
+  { "hospitalName": "Hospital L", "requestType": "Type 2", "dateOfRequest": "2023-01-12", "status": "Pending" },
+  { "hospitalName": "Hospital M", "requestType": "Type 3", "dateOfRequest": "2023-01-13", "status": "Denied" },
+  { "hospitalName": "Hospital N", "requestType": "Type 4", "dateOfRequest": "2023-01-14", "status": "Expired" },
+  { "hospitalName": "Hospital O", "requestType": "Type 5", "dateOfRequest": "2023-01-15", "status": "Revoked" }
+]
