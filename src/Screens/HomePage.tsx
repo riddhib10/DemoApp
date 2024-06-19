@@ -1,59 +1,77 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import {getCurrentUser as fetchCurrentUser } from '../services/authService';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert, BackHandler } from 'react-native';
+import { getCurrentUser as fetchCurrentUser } from '../services/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomePage = ({ navigation, route }) => {
+  const [userData, setUserData] = useState('');
+  const [search, setSearch] = useState('');
 
-    const [userData, setUserData] = useState('');
-    const [search, setSearch] = useState('');
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const storedUserData = await AsyncStorage.getItem('user');
+      setUserData(JSON.parse(storedUserData));
+    };
+    checkLoginStatus();
+  }, []);
 
- useEffect(() => {
-     const checkLoginStatus = async () => {
-       const storedUserData = await AsyncStorage.getItem('user');
-       setUserData(JSON.parse(storedUserData));
-     };
-     checkLoginStatus();
-   }, []);
-
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to exit the app?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction
+    );
+    return () => backHandler.remove();
+  }, []);
 
   return (
+    <View>
+      <View style={styles.container}>
+        <Text style={styles.userInfoText}>Welcome to Home Page!</Text>
+        <View style={[styles.imageContainer, { alignItems: 'center' }]}>
+          <Image
+            source={userData.photoURL ? { uri: userData.photoURL } : ""}
+            style={styles.image}/>
+        </View>
+        <Text style={[styles.userInfoText, { textAlign: 'center' }]}>
+          Hello {userData.displayName}!
+        </Text>
 
-  <View>
-    <View style={styles.container}>
-    <Text style={styles.userInfoText}>Welcome to Home Page!</Text>
-       <View style={[styles.imageContainer, { alignItems: 'center' }]}>
-         <Image  source={userData.photoURL ? { uri: userData.photoURL } : ""} style={styles.image} />
-       </View>
-       <Text style={[styles.userInfoText, { textAlign: 'center' }]}>Hello {userData.displayName}!</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.text}>Email Id :</Text>
+          <Text style={styles.text}>{userData.email}</Text>
+        </View>
 
-       <View style={styles.infoContainer}>
-         <Text style={styles.text}>Email Id :</Text>
-         <Text style={styles.text}>{userData.email}</Text>
-       </View>
-
-       <View style={styles.infoContainer}>
-         <Text style={styles.text}>User UID :</Text>
-         <Text style={styles.text}>{userData.uid}</Text>
-       </View>
-
+        <View style={styles.infoContainer}>
+          <Text style={styles.text}>User UID :</Text>
+          <Text style={styles.text}>{userData.uid}</Text>
+        </View>
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={setSearch}
+          value={search}
+          containerStyle={{ backgroundColor: 'transparent', borderWidth: 0, width: '100%' }}
+          inputContainerStyle={{ backgroundColor: '#e1e1e1', borderRadius: 25 }}
+          inputStyle={{ color: '#000' }}
+          placeholderTextColor="#888"
+          searchIcon={{ size: 24 }}
+          clearIcon={<Icon name="close" size={24} onPress={() => setSearch('')} />}
+        />
+        <Text style={{ marginTop: 20 }}>Search Query: {search}</Text>
+      </View>
     </View>
-     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                  <SearchBar
-                    placeholder="Type Here..."
-                    onChangeText={setSearch}
-                    value={search}
-                    containerStyle={{ backgroundColor: 'transparent', borderWidth: 0, width: '100%' }}
-                    inputContainerStyle={{ backgroundColor: '#e1e1e1', borderRadius: 25 }}
-                    inputStyle={{ color: '#000' }}
-                    placeholderTextColor="#888"
-                    searchIcon={{ size: 24 }}
-                    clearIcon={<Icon name="close" size={24} onPress={() => setSearch('')} />}/>
-                  <Text style={{ marginTop: 20 }}>Search Query: {search}</Text>
-       </View>
-   </View>
   );
 };
 
