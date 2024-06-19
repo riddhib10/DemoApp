@@ -192,20 +192,7 @@ const HomePage = ({ navigation, route }) => {
           <Text style={styles.text}>{userData.uid}</Text>
         </View>
       </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <SearchBar
-          placeholder="Type Here..."
-          onChangeText={setSearch}
-          value={search}
-          containerStyle={{ backgroundColor: 'transparent', borderWidth: 0, width: '100%' }}
-          inputContainerStyle={{ backgroundColor: '#e1e1e1', borderRadius: 25 }}
-          inputStyle={{ color: '#000' }}
-          placeholderTextColor="#888"
-          searchIcon={{ size: 24 }}
-          clearIcon={<Icon name="close" size={24} onPress={() => setSearch('')} />}
-        />
-        <Text style={{ marginTop: 20 }}>Search Query: {search}</Text>
-      </View>
+
     </View>
   );
 };

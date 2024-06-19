@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logOutButton: {
-    backgroundColor: 'lightgray',
-    borderRadius: 4,
+    backgroundColor: 'orange',
+    borderRadius: 50,
     paddingHorizontal: 34,
     paddingVertical: 16,
     flexDirection: 'row',
@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-    margin: 16,
   },
   infoContainer: {
     marginVertical: 8,
