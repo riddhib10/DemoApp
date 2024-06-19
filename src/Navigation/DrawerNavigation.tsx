@@ -112,8 +112,7 @@ function DrawerNavigation() {
             drawerIcon: ({ color, size }) => (
               <Icon name="home" color={color} size={size} />
             ),
-          }}
-        />
+          }} />
         <Drawer.Screen
           name="AboutUs"
           component={AboutUs}
@@ -122,8 +121,7 @@ function DrawerNavigation() {
             drawerIcon: ({ color, size }) => (
               <Icon name="info" color={color} size={size} />
             ),
-          }}
-        />
+          }} />
         <Drawer.Screen
           name="ContactUs"
           component={ContactUs}
@@ -132,8 +130,7 @@ function DrawerNavigation() {
             drawerIcon: ({ color, size }) => (
               <Icon name="contacts" color={color} size={size} />
             ),
-          }}
-        />
+          }} />
         <Drawer.Screen
           name="LanguageChange"
           component={LanguageChange}
@@ -142,8 +139,7 @@ function DrawerNavigation() {
             drawerIcon: ({ color, size }) => (
               <Icon name="language" color={color} size={size} />
             ),
-          }}
-        />
+          }} />
         <Drawer.Screen
           name="Settings"
           component={Settings}
@@ -152,8 +148,7 @@ function DrawerNavigation() {
             drawerIcon: ({ color, size }) => (
               <Icon name="settings" color={color} size={size} />
             ),
-          }}
-        />
+          }} />
       </Drawer.Navigator>
   );
 }
@@ -165,6 +160,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 18,
+    color : '#000',
     fontWeight: 'bold',
   },
 });

@@ -19,27 +19,6 @@ const HomePage = ({ navigation, route }) => {
    }, []);
 
 
-//   const handleLogout = async () => {
-//     Alert.alert('Log Out', 'Are you sure you want to log out?',
-//       [
-//         { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-//         { text: 'OK', onPress: async () => {
-//             try {
-//               await signOut();
-//               navigation.replace('LoginPage');
-//               Alert.alert('Logged Out', 'You have been logged out successfully.');
-//             } catch (error) {
-//               Alert.alert('Error', 'An error occurred while logging out.');
-//             }
-//           }
-//         }
-//       ],
-//       { cancelable: false }
-//     );
-//   };
-
-
-
   return (
 
   <View>
