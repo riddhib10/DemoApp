@@ -101,15 +101,14 @@ export const signInWithGoogle = async (): Promise<User | null> => {
   }
 };
 
-export const signOut = async (navigation: NavigationProp): Promise<void> => {
+export const signOut =(): Promise<void> => {
      console.log('signing out');
  try {
-    await GoogleSignin.signOut();
-    await AsyncStorage.removeItem('user');
-    await auth().signOut();
+    GoogleSignin.signOut();
+    AsyncStorage.removeItem('user');
+    auth().signOut();
   } catch (error) {
     console.error('Error signing out', error);
-    throw error;
   }
 };
 
@@ -120,6 +119,6 @@ export const getCurrentUser = async (): Promise<User | null> => {
     return storedUser ? JSON.parse(storedUser) as User : null;
   } catch (error) {
     console.error('Error getting current user', error);
-    throw error;
   }
+
 };

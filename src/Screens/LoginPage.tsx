@@ -3,33 +3,25 @@ import { View, StyleSheet } from 'react-native';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { signInWithGoogle, getCurrentUser as fetchCurrentUser } from '../services/authService';
 
-
-// interface User {
-//   uid: string;
-//   email: string | null;
-//   displayName: string | null;
-//   photoURL: string | null;
-// }
 interface Props {
   navigation: any;
 }
 
 function LoginPage({ navigation }: Props) {
-
   const [user, setUser] = useState('');
 
   useEffect(() => {
     const loadUser = async () => {
-        const currentUser = await fetchCurrentUser();
-        if (currentUser) {
-         await setUser(currentUser);
-          navigation.navigate('HomePage');
-        } else {
-          console.log('No user found!');
-        }
+      const currentUser = await fetchCurrentUser();
+      if (currentUser) {
+        setUser(currentUser);
+        navigation.navigate('Home', { screen: 'HomePage' });
+      } else {
+        console.log('No user found!');
+      }
     };
     loadUser();
-  }, [user]);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -41,10 +33,12 @@ function LoginPage({ navigation }: Props) {
           try {
             const signedInUser = await signInWithGoogle();
             setUser(signedInUser);
+            navigation.navigate('Home');
           } catch (error) {
             console.error('Error signing in:', error);
           }
-        }}/>
+        }}
+      />
     </View>
   );
 }
